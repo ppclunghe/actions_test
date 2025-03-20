@@ -20,16 +20,10 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install pandas requests python-dotenv
     
     - name: Run script
       env:
         DUNE_API: ${{ secrets.DUNE_API }}
       run: python script.py
-    
-    - name: Upload results
-      uses: actions/upload-artifact@v3
-      with:
-        name: dune-results
-        path: dune_results_*.csv
     
