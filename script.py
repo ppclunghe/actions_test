@@ -83,9 +83,8 @@ ts = pd.Timestamp(pd.Timestamp.today(), tz='UTC')
 # %%
 ts = int(time.time()) 
 svaults = [ '0x528CF7DBBff878e02e48E83De5097F8071af768D', # https://fluid.instadapp.io/stats/1/vaults#44, other vaults - TBD
-            '0xb4a15526d427f4d20b0dAdaF3baB4177C85A699A', #weETH, https://fluid.instadapp.io/stats/1/vaults#74
-            '0x20b32C597633f12B44CFAFe0ab27408028CA0f6A', #rsETH, https://fluid.instadapp.io/stats/1/vaults#78
-            '0x153a0D021AeD5d20D9E59e8B9ecC9E3e9276f6C3' #weETHs https://fluid.instadapp.io/stats/1/vaults#80
+            '0xb4a15526d427f4d20b0dAdaF3baB4177C85A699A' #weETH, https://fluid.instadapp.io/stats/1/vaults#74
+
 ]
 for v in svaults:
     print(v)             
@@ -124,6 +123,44 @@ for v in svaults:
     
 
 # %%
-tmpdf
+svaults_arb = [ '0xeAEf563015634a9d0EE6CF1357A3b205C35e028D', #16
+            '0x3996464c0fCCa8183e13ea5E5e74375e2c8744Dd' #17
+
+]
+for v in svaults_arb:
+    print(v)             
+    url = f'https://api.fluid.instadapp.io/v2/42161/vaults/{v}'
+    response = requests.get(url)
+    print('status: ', response.status_code)
+    if response.status_code == 200:
+        dct = {}
+        tmpdf = pd.DataFrame()
+        dct['unixtimestamp'] = ts
+        dct['id'] = response.json()['id']
+        dct['address'] = response.json()['address']
+        dct['supply_token0'] = response.json()['supplyToken']['token0']['address']
+        dct['supply_token1'] = response.json()['supplyToken']['token1']['address']
+        dct['borrow_token0'] = response.json()['borrowToken']['token0']['address']
+        dct['borrow_token1'] = response.json()['borrowToken']['token1']['address']
+        dct['liquidity_supply_token0'] = response.json()['liquiditySupplyData']['token0']['supply']
+        dct['liquidity_supply_token1'] = response.json()['liquiditySupplyData']['token1']['supply']
+        dct['liquidity_borrow_token0'] = response.json()['liquidityBorrowData']['token0']['borrow']
+        dct['liquidity_borrow_token1'] = response.json()['liquidityBorrowData']['token1']['borrow']
+        dct['supply_dex_reserve_token0'] = response.json()['supplyDexData']['token0RealReserves']
+        dct['supply_dex_reserve_token1'] = response.json()['supplyDexData']['token1RealReserves']
+        dct['borrow_dex_debt_token0'] = response.json()['borrowDexData']['token0Debt']
+        dct['borrow_dex_debt_token1'] = response.json()['borrowDexData']['token1Debt']
+        dct['borrow_dex_reserve_token0'] = response.json()['borrowDexData']['token0RealReserves']
+        dct['borrow_dex_reserve_token1'] = response.json()['borrowDexData']['token1RealReserves']
+        dct['blockchain'] = 'arbitrum'
+        
+        tmpdf = pd.DataFrame([dct])
+        output = io.StringIO()
+        tmpdf.to_csv(output, index=False)
+        csv_string = output.getvalue()
+        insert_to_dune_dataset('fluid_scsd_vaults_stats', csv_string, dune_key)
+    else:
+        print('vault skipped')
+   
 
 
