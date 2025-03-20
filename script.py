@@ -20,7 +20,7 @@ def create_dune_dataset():
 
     payload = {
         "namespace": "lido",
-        "table_name": "fluid_scsd_vaults_stats_test",
+        "table_name": "fluid_scsd_vaults_stats",
         "description": "Fluid vaults with Smart Col/Smart Debt",
         "schema": 
         [    {"name": "unixtimestamp", "type": "double"}
@@ -117,7 +117,7 @@ for v in svaults:
         output = io.StringIO()
         tmpdf.to_csv(output, index=False)
         csv_string = output.getvalue()
-        insert_to_dune_dataset('fluid_scsd_vaults_stats_test', csv_string, dune_key)
+        insert_to_dune_dataset('fluid_scsd_vaults_stats', csv_string, dune_key)
     else:
         print('vault skipped')
     
