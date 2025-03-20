@@ -112,6 +112,7 @@ for v in svaults:
         dct['borrow_dex_debt_token1'] = response.json()['borrowDexData']['token1Debt']
         dct['borrow_dex_reserve_token0'] = response.json()['borrowDexData']['token0RealReserves']
         dct['borrow_dex_reserve_token1'] = response.json()['borrowDexData']['token1RealReserves']
+        dct['blockchain'] = 'ethereum'
         
         tmpdf = pd.DataFrame([dct])
         output = io.StringIO()
