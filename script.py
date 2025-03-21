@@ -83,7 +83,9 @@ ts = pd.Timestamp(pd.Timestamp.today(), tz='UTC')
 # %%
 ts = int(time.time()) 
 svaults = [ '0x528CF7DBBff878e02e48E83De5097F8071af768D', # https://fluid.instadapp.io/stats/1/vaults#44, other vaults - TBD
-            '0xb4a15526d427f4d20b0dAdaF3baB4177C85A699A' #weETH, https://fluid.instadapp.io/stats/1/vaults#74
+            '0xb4a15526d427f4d20b0dAdaF3baB4177C85A699A', #weETH, https://fluid.instadapp.io/stats/1/vaults#74
+            '0x9A64E3EB9c2F917CBAdDe75Ad23bb402257acf2E', #rsETH, https://api.fluid.instadapp.io/v2/1/vaults/0x9A64E3EB9c2F917CBAdDe75Ad23bb402257acf2E
+            '0x153a0D021AeD5d20D9E59e8B9ecC9E3e9276f6C3', #weETHs, https://fluid.instadapp.io/stats/1/vaults#80
 
 ]
 for v in svaults:
