@@ -1,8 +1,8 @@
 name: Dune Analytics Data Fetch
 
 on:
-  schedule:
-    - cron: '0 */4 * * *'  # Run once every 4 hours
+  #schedule:
+  #  - cron: '0 */4 * * *'  # Run once every 4 hours
   workflow_dispatch:  # Allow manual trigger
 
 jobs:
